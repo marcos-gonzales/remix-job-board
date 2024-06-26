@@ -3,6 +3,9 @@ import { user } from "../../db/schema";
 import { asc } from "drizzle-orm";
 import { useLoaderData, Form, redirect, useActionData } from "@remix-run/react";
 import { json, LoaderFunctionArgs, ActionFunctionArgs } from "@remix-run/node";
+import InputGroup from "~/components/InputGroup";
+import { FaEnvelope, FaPhone, FaUserSecret } from "react-icons/fa";
+import { FaPerson } from "react-icons/fa6";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const users = await db.select().from(user).orderBy(asc(user.id));
@@ -44,25 +47,24 @@ export function SignUp() {
 
   return (
     <Form method="post">
-      <input
-        type="text"
-        placeholder="Name"
-        name="name"
-        className="input input-bordered w-full max-w-xs"
-      />
-      <input type="text" placeholder="Email" name="email" />
-      <button className="btn btn-outline btn-accent">click me!</button>
-      {/* <Input placeholder="Name" className="max-w-1/2" name="name"></Input>
-      {actionData?.errors?.name ? (
-        <em className="text-red-500">{actionData?.errors.name}</em>
-      ) : null}
-      <Input placeholder="Email" type="email" name="email" />
-      {actionData?.errors?.email ? <em>{actionData?.errors.email}</em> : null}
-      <Input placeholder="password" type="password" name="password" />
-      <Input placeholder="phone" type="phone" name="phone" />
-      <Button variant="outline" className="p-2 flex m-auto" type="submit">
+      <InputGroup name="name">
+        <FaPerson />
+      </InputGroup>
+      <InputGroup name="email">
+        <FaEnvelope />
+      </InputGroup>
+      <InputGroup name="password" type="password">
+        <FaUserSecret />
+      </InputGroup>
+      <InputGroup name="phone" type="tel">
+        <FaPhone />
+      </InputGroup>
+      <button
+        className="btn btn-outline btn-accent w-full flex justify-center mx-auto text-lg"
+        style={{ maxWidth: "453px" }}
+      >
         Submit
-      </Button> */}
+      </button>
     </Form>
   );
 }
@@ -72,7 +74,7 @@ export default function index() {
   console.log(users);
   return (
     <div className="container" style={{ maxWidth: "50%;", margin: "auto" }}>
-      <h1>welcome!</h1>
+      <h1 className="text-2xl mb-5">welcome!</h1>
       <SignUp />
     </div>
   );
